@@ -33,6 +33,7 @@ public class PlayerBrain : MonoBehaviour
     [SerializeField, BoxGroup("Dependencies")] EntityMovement _movement;
 
     [SerializeField, BoxGroup("Input")] InputActionProperty _moveInput;
+    [SerializeField, BoxGroup("Input")] InputActionProperty _dashInput;
     [SerializeField, BoxGroup("Input")] InputActionProperty _attackInput;
 
     private void Start()
@@ -41,6 +42,10 @@ public class PlayerBrain : MonoBehaviour
         _moveInput.action.started += UpdateMove;
         _moveInput.action.performed += UpdateMove;
         _moveInput.action.canceled += StopMove;
+        
+        //Dash
+        _dashInput.action.started += Dash;
+
         // Attack
         //_attackInput.action.started += Attack;
     }
@@ -104,5 +109,10 @@ public class PlayerBrain : MonoBehaviour
     private void StopMove(InputAction.CallbackContext obj)
     {
         _movement.Move(Vector2.zero);
+    }
+    
+    private void Dash(InputAction.CallbackContext obj)
+    {
+        _movement.Dash();
     }
 }

@@ -10,6 +10,8 @@ public class EntityMovement : MonoBehaviour
 
     [SerializeField, BoxGroup("Configuration")] float _startSpeed;
 
+    [SerializeField, BoxGroup("Configuration")] private float _dashSpeed;
+
     #region Events
     [SerializeField, Foldout("Event")] UnityEvent _onStartWalking;
     [SerializeField, Foldout("Event")] UnityEvent _onContinueWalking;
@@ -59,6 +61,7 @@ public class EntityMovement : MonoBehaviour
 
     public void Move(Vector2 direction) => MoveDirection = direction.normalized;
     public void MoveToward(Transform target) => MoveDirection = (target.position - _rb.transform.position).normalized;
+    public void Dash() => _rb.AddForce(MoveDirection * _dashSpeed, ForceMode2D.Impulse);
 
     public void AlterSpeed(float factor)
     {
