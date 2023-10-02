@@ -31,10 +31,12 @@ public static class AnimationExtension
 public class PlayerBrain : MonoBehaviour
 {
     [SerializeField, BoxGroup("Dependencies")] EntityMovement _movement;
+    [SerializeField, BoxGroup("Dependencies")] EntityAttack _attack;
 
     [SerializeField, BoxGroup("Input")] InputActionProperty _moveInput;
     [SerializeField, BoxGroup("Input")] InputActionProperty _dashInput;
     [SerializeField, BoxGroup("Input")] InputActionProperty _attackInput;
+    [SerializeField, BoxGroup("Input")] InputActionProperty _fireInput;
 
     private void Start()
     {
@@ -48,6 +50,7 @@ public class PlayerBrain : MonoBehaviour
 
         // Attack
         //_attackInput.action.started += Attack;
+        _fireInput.action.started += Fire;
     }
 
 
@@ -114,5 +117,10 @@ public class PlayerBrain : MonoBehaviour
     private void Dash(InputAction.CallbackContext obj)
     {
         _movement.Dash();
+    }
+
+    private void Fire(InputAction.CallbackContext obj) 
+    {
+        _attack.Fire();
     }
 }

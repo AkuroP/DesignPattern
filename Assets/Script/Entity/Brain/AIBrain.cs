@@ -50,6 +50,7 @@ public class AIBrain : MonoBehaviour
         else if (IsPlayerNear)
         {
             _movement.MoveToward(_playerEntity.Instance.transform);
+            _attack.Fire();
         }
         // Stay idle
         else
