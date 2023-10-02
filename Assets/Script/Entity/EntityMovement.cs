@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class EntityMovement : MonoBehaviour
 {
-    [SerializeField, BoxGroup("Dependencies")] Rigidbody2D _rb;
+    [SerializeField, BoxGroup("Dependencies")] Rigidbody2D _rb; 
 
     [SerializeField, BoxGroup("Configuration")] float _startSpeed;
 
@@ -45,6 +45,7 @@ public class EntityMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.Log("movement direction: " + MoveDirection);
         // FireEvents
         if (MoveDirection.magnitude < 0.01f && OldVelocity.magnitude > 0.01f)
             _onStopWalking?.Invoke();
