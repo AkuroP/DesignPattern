@@ -30,6 +30,8 @@ public class AIBrain : MonoBehaviour
     bool IsPlayerInAttackRange => Vector3.Distance(_root.transform.position, _playerEntity.Instance.transform.position) < _distanceAttack;
     bool IsPlayerTooNear => Vector3.Distance(_root.transform.position, _playerEntity.Instance.transform.position) < _stopDistance;
 
+    bool _playerInSight = false;
+
     #region EDITOR
 #if UNITY_EDITOR
     void Reset()
@@ -61,35 +63,33 @@ public class AIBrain : MonoBehaviour
 
     private void Update()
     {
-        // Attack
-       /* if(IsPlayerTooNear)
+        RaycastHit2D rh2D = Physics2D.Raycast(this.transform.position, this.transform.position - this.transform.position);
+        if (rh2D.collider.gameObject.name == "Player")
         {
-            _movement.Move(Vector2.zero);
-            _attack.LaunchAttack();
+            _playerInSight = true;
         }
         // Move To Player
         else if (IsPlayerNear)
         {
             _movement.MoveToward(_playerEntity.Instance.transform);
-            _attack.Fire();
         }
         // Stay idle
         else
         {
-            _movement.Move(Vector2.zero);
-        }*/
+            _playerInSight = false;
+        }
 
 
         // AI State Machine
         switch(_currentState)
         {
             case ENEMY_STATES.ES_IDLE:
-                if(IsPlayerNear)
+                if(IsPlayerNear && _playerInSight)
                 {
                     _currentState = ENEMY_STATES.ES_PURCHASE;
                     break;
                 }
-                else if(IsPlayerInAttackRange)
+                else if(IsPlayerInAttackRange && _playerInSight)
                 {
                     _currentState = ENEMY_STATES.ES_ATTACK;
                     break;
@@ -115,9 +115,9 @@ public class AIBrain : MonoBehaviour
                 break;
 
             case ENEMY_STATES.ES_ATTACK:
-                if (!IsPlayerInAttackRange)
+                if (!IsPlayerInAttackRange || !_playerInSight)
                 {
-                    _currentState = ENEMY_STATES.ES_IDLE;
+                    _currentState = ENEMY_STATES.ES_PURCHASE;
                     break;
                 }
                 _movement.Move(Vector2.zero);
