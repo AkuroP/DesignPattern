@@ -2,13 +2,15 @@ using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 enum ENEMY_STATES
 {
     ES_IDLE,
     ES_PATROL,
     ES_PURCHASE,
-    ES_ATTACK
+    ES_ATTACK,
+    ES_DEATH
 }
 
 public class AIBrain : MonoBehaviour
@@ -23,6 +25,9 @@ public class AIBrain : MonoBehaviour
     [SerializeField, BoxGroup("Conf")] float _distanceAttack;
     [SerializeField, BoxGroup("Conf")] float _stopDistance;
     [SerializeField, BoxGroup("Conf")] private float _fireSpeed = 10f;
+
+    [SerializeField] private ParticleSystem _deathParticle;
+    public event Action OnAiDeath;
 
     ENEMY_STATES _currentState;
 
@@ -57,7 +62,9 @@ public class AIBrain : MonoBehaviour
     private void Start()
     {
         _currentState = ENEMY_STATES.ES_IDLE;
+        OnAiDeath += DeathParticle;
     }
+
 
     private void Update()
     {
@@ -125,8 +132,28 @@ public class AIBrain : MonoBehaviour
                 _attack.Fire((_playerEntity.Instance.transform.position - this.transform.position).normalized, _fireSpeed) ;
                 //Debug.Log(_playerEntity.Instance.transform.position);
                 break;
+
+            case ENEMY_STATES.ES_DEATH:
+                OnAiDeath?.Invoke();
+                _currentState = ENEMY_STATES.ES_IDLE;
+                break;
         }
     }
+    private void DeathParticle()
+    {
+        _deathParticle?.gameObject.SetActive(true);
+        _deathParticle?.Play();
+        Destroy(this.transform.root.gameObject, _deathParticle.main.duration);
+    }
 
+    private void OnDestroy()
+    {
+        OnAiDeath -= DeathParticle;
+    }
 
+    [Button]
+    public void DebugAiDeath()
+    {
+        _currentState = ENEMY_STATES.ES_DEATH;
+    }
 }
