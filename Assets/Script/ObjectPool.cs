@@ -31,7 +31,6 @@ namespace Game
         [SerializeField] private int objectDefaultCapacity = 20;
         [SerializeField] private int objectMaxSize = 50;
 
-
         // Start is called before the first frame update
         void Awake()
         {
@@ -84,14 +83,17 @@ namespace Game
             else if(bulletCD > 0f) bulletCD -= Time.deltaTime;*/
         }
 
-        public void FireBullet(Transform spawnPoint, float velocity)
+        public void FireBullet(Transform shooter, Vector3 targetPos, float velocity)
         {
             if (bulletPool != null)
             {
                 bullet bullet = bulletPool.Get();
                 if (bullet == null) return;
-                bullet.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
-                bullet.Rb.AddForce(bullet.transform.forward * velocity, ForceMode2D.Impulse);
+                bullet.transform.SetPositionAndRotation(shooter.position, Quaternion.identity);
+                bullet.Target = targetPos;
+                bullet.Speed = velocity;
+                //targetPos.Normalize();
+               //bullet.Rb.AddForce(targetPos * velocity, ForceMode2D.Impulse);
             }
         }
     }

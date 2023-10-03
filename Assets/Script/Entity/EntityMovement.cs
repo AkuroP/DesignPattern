@@ -45,7 +45,7 @@ public class EntityMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log("movement direction: " + MoveDirection);
+        //Debug.Log("movement direction: " + MoveDirection);
         // FireEvents
         if (MoveDirection.magnitude < 0.01f && OldVelocity.magnitude > 0.01f)
             _onStopWalking?.Invoke();

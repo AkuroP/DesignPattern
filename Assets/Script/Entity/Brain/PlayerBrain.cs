@@ -55,6 +55,8 @@ public class PlayerBrain : MonoBehaviour
 
     private GameObject _powerSphere;
 
+    [SerializeField] private float _fireSpeed = 10f;
+
     private void Start()
     {
         // Move
@@ -144,7 +146,9 @@ public class PlayerBrain : MonoBehaviour
 
     private void Fire(InputAction.CallbackContext obj)
     {
-        _attack.Fire();
+        if (this == null) return;
+        Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition) - this.transform.position;
+        _attack.Fire(target, _fireSpeed);
     }
 
     private void UpdateSphere(InputAction.CallbackContext obj)

@@ -1,6 +1,7 @@
 using Game;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Graphs;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,12 +30,13 @@ public class EntityAttack : MonoBehaviour
         }
     }
 
-    public void Fire()
+    public void Fire(Vector3 target, float velocity)
     {
-        if (fireCD > 0 && this == null) return;
+        if (fireCD > 0) return;
         OnFire?.Invoke();
         fireCD = maxFireCD;
-        bulletPool.FireBullet(this.transform, 10f);
+        target.Normalize();
+        bulletPool.FireBullet(this.transform, target, velocity);
     }
 
 

@@ -22,6 +22,7 @@ public class AIBrain : MonoBehaviour
     [SerializeField, BoxGroup("Conf")] float _distanceDetection;
     [SerializeField, BoxGroup("Conf")] float _distanceAttack;
     [SerializeField, BoxGroup("Conf")] float _stopDistance;
+    [SerializeField, BoxGroup("Conf")] private float _fireSpeed = 10f;
 
     ENEMY_STATES _currentState;
 
@@ -121,7 +122,8 @@ public class AIBrain : MonoBehaviour
                 }
                 _movement.Move(Vector2.zero);
                 //Attack
-
+                _attack.Fire((_playerEntity.Instance.transform.position - this.transform.position).normalized, _fireSpeed) ;
+                //Debug.Log(_playerEntity.Instance.transform.position);
                 break;
         }
     }
