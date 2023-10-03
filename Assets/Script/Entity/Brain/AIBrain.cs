@@ -135,12 +135,12 @@ public class AIBrain : MonoBehaviour
 
             case ENEMY_STATES.ES_DEATH:
                 OnAiDeath?.Invoke();
-                _currentState = ENEMY_STATES.ES_IDLE;
                 break;
         }
     }
     private void DeathParticle()
     {
+        if (_deathParticle.isPlaying) return;
         _deathParticle?.gameObject.SetActive(true);
         _deathParticle?.Play();
         Destroy(this.transform.root.gameObject, _deathParticle.main.duration);
