@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 770891632390417962}
   - component: {fileID: 8134179484313223492}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shadowz
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ MonoBehaviour:
   - {x: 0.2958265, y: -0.2958265, z: 0}
   m_ShapePathHash: 1522865524
   m_Mesh: {fileID: 0}
-  m_InstanceId: -92204
+  m_InstanceId: -2052
   m_LocalBounds:
     m_Center: {x: -0.011600763, y: -0.10208678, z: 0}
     m_Extent: {x: 0.30742726, y: 0.19373971, z: 0}
@@ -72,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6041049926837159645}
   - component: {fileID: 4211256022028979249}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: InteractionZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6968534502112898195}
   - component: {fileID: 1695187766274494999}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7711128023838084037}
   - component: {fileID: 1220184423856623838}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,7 +303,7 @@ GameObject:
   m_Component:
   - component: {fileID: 462987399355637861}
   - component: {fileID: 2898176745262067118}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerBrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,6 +414,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Human
       objectReference: {fileID: 0}
+    - target: {fileID: 5272552499143439441, guid: cf6879ba03f6f5e4ab3ad5150b0ba076, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5272552499143439447, guid: cf6879ba03f6f5e4ab3ad5150b0ba076, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -466,9 +470,17 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+    - target: {fileID: 5272552500058403403, guid: cf6879ba03f6f5e4ab3ad5150b0ba076, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5272552500311877903, guid: cf6879ba03f6f5e4ab3ad5150b0ba076, type: 3}
       propertyPath: m_Name
       value: Shadowz
+      objectReference: {fileID: 0}
+    - target: {fileID: 5272552500311877903, guid: cf6879ba03f6f5e4ab3ad5150b0ba076, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6357684125458675834, guid: cf6879ba03f6f5e4ab3ad5150b0ba076, type: 3}
       propertyPath: m_Enabled
@@ -531,6 +543,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 614539736087202569, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228605993449745919, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1528954233045646218, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880931813937602012, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2903873710831780085, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       propertyPath: _dashSpeed
       value: 150
@@ -583,9 +611,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6449313007887742165, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7434393736975374266, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7441624434679606949, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8478795163881341575, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

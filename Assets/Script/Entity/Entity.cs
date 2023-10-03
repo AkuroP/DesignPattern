@@ -1,3 +1,4 @@
+using System;
 using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,10 +10,7 @@ public class Entity : MonoBehaviour
 
     [SerializeField] int _baseSpeed;
     public Alterable<int> CurrentSpeed { get; private set; }
-
     
-
-
     private void Awake()
     {
         CurrentSpeed = new Alterable<int>(_baseSpeed);
@@ -28,5 +26,13 @@ public class Entity : MonoBehaviour
 
         CurrentSpeed.RemoveTransformator(token);
     }
-
+    
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Sphere") && CompareTag("Enemy"))
+        {
+            _health.Damage(50);
+            Debug.Log(_health.CurrentHealth);
+        }
+    }
 }
