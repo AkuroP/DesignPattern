@@ -58,7 +58,7 @@ MonoBehaviour:
   - {x: 0.2958265, y: -0.2958265, z: 0}
   m_ShapePathHash: 1522865524
   m_Mesh: {fileID: 0}
-  m_InstanceId: 36450
+  m_InstanceId: 33662
   m_LocalBounds:
     m_Center: {x: -0.011600763, y: -0.10208678, z: 0}
     m_Extent: {x: 0.30742726, y: 0.19373971, z: 0}
@@ -414,6 +414,7 @@ MonoBehaviour:
   _aim: {fileID: 0}
   _spherePrefab: {fileID: 3871984787734361374, guid: 86f6621bdb326354d816607fd176775e, type: 3}
   _sphereForce: 1500
+  _sphereSpawnSFX: {fileID: 8300000, guid: 15453f3338996644786566db779b4faf, type: 3}
   _fireSpeed: 10
 --- !u!1001 &5388345588737081166
 PrefabInstance:

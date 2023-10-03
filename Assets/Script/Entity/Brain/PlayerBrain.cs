@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using System.Collections;
 using Game.Script;
+using Game.Script.SoundManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -48,6 +49,7 @@ public class PlayerBrain : MonoBehaviour
 
     [SerializeField, BoxGroup("Power Sphere")] private GameObject _spherePrefab;
     [SerializeField, BoxGroup("Power Sphere")] private float _sphereForce;
+    [SerializeField, BoxGroup("Power Sphere")] private AudioClip _sphereSpawnSFX;
     private SphereMoveUndo _sphereMoveUndo;
 
     private GameObject _powerSphere;
@@ -159,6 +161,8 @@ public class PlayerBrain : MonoBehaviour
             _powerSphere = Instantiate(_spherePrefab, transform.position + dir, Quaternion.identity);
             _sphereMoveUndo = _powerSphere.GetComponent<SphereMoveUndo>();
             _sphereRb = _powerSphere.GetComponent<Rigidbody2D>();
+            
+            ServiceLocator.Get().PlaySound(_sphereSpawnSFX);
         }
         else
         {

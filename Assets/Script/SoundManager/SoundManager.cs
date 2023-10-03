@@ -1,0 +1,18 @@
+using UnityEngine;
+
+namespace Game.Script.SoundManager
+{
+    public class SoundManager : MonoBehaviour, ISoundManager
+    {
+        public void PlaySound(AudioClip audioClip)
+        {
+            if (gameObject.GetComponent<AudioSource>() == null)
+            {
+                gameObject.AddComponent<AudioSource>();   
+            }
+
+            var audioSource = gameObject.GetComponent<AudioSource>();
+            audioSource.PlayOneShot(audioClip);
+        }
+    }
+}
