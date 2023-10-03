@@ -13,12 +13,12 @@ public class EntityAttack : MonoBehaviour
     public event UnityAction OnAttack;
     public event UnityAction OnFire;
 
-    private float fireCD;
-    [SerializeField] private float maxFireCD = .5f;
+    private float _fireCD;
+    [SerializeField] private float _maxFireCD = .5f;
 
     private void FixedUpdate()
     {
-        if (fireCD > 0) fireCD -= Time.deltaTime;
+        if (_fireCD > 0) _fireCD -= Time.deltaTime;
     }
 
     public void LaunchAttack()
@@ -32,9 +32,9 @@ public class EntityAttack : MonoBehaviour
 
     public void Fire(Vector3 target, float velocity)
     {
-        if (fireCD > 0) return;
+        if (_fireCD > 0) return;
         OnFire?.Invoke();
-        fireCD = maxFireCD;
+        _fireCD = _maxFireCD;
         target.Normalize();
         bulletPool.FireBullet(this.transform, target, velocity);
     }

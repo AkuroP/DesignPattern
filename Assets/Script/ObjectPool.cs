@@ -10,36 +10,35 @@ namespace Game
 {
     public class ObjectPool : MonoBehaviour
     {
-        //essai de rendre l'object pool general : WIP
-        //private object objectConcerned;
 
-        [SerializeField]private bullet bulletPrefab;
+        [SerializeField]private bullet _bulletPrefab;
 
-        private IObjectPool<bullet> bulletPool;
+        private IObjectPool<bullet> _bulletPool;
 
-        [SerializeField] private bool collectionCheck = true;
+        [SerializeField] private bool _collectionCheck = true;
 
         [Tooltip("Cooldown avant spawn de l'objet")]
-        [SerializeField] private float bulletMaxCD = .1f;
-        private float bulletCD;
+        [SerializeField] private float _bulletMaxCD = .1f;
+        private float _bulletCD;
 
-        //TO DO :
-        //Mettre plusieurs spawn points
-        //private List<Transform> bulletsSpawnPoints = new List<Transform>();
-        //[SerializeField] private Transform bulletSpawnPoint;
-
-        [SerializeField] private int objectDefaultCapacity = 20;
-        [SerializeField] private int objectMaxSize = 50;
+        [SerializeField] private int _objectDefaultCapacity = 20;
+        [SerializeField] private int _objectMaxSize = 50;
 
         // Start is called before the first frame update
         void Awake()
         {
-            bulletPool = new ObjectPool<bullet>(CreateObject, OnGetFromPool, OnReleaseToPool, OnDestroyToPooledObject, collectionCheck, objectDefaultCapacity, objectMaxSize) ;
+            _bulletPool = new ObjectPool<bullet>(CreateObject, OnGetFromPool, OnReleaseToPool, OnDestroyToPooledObject, _collectionCheck, _objectDefaultCapacity, _objectMaxSize) ;
         }
 
         private void Start()
         {
-            bulletCD = bulletMaxCD;
+            _bulletCD = _bulletMaxCD;
+
+            for(int i = 0; i < _objectDefaultCapacity; i++)
+            {
+                bullet bullet = CreateObject();
+                bullet.gameObject.SetActive(false);
+            }
         }
 
 
@@ -64,8 +63,8 @@ namespace Game
         //crée un objet et l'assigne à la pool
         private bullet CreateObject()
         {
-            bullet bulletInstance = Instantiate(bulletPrefab);
-            bulletInstance.ObjectPool = bulletPool;
+            bullet bulletInstance = Instantiate(_bulletPrefab);
+            bulletInstance.ObjectPool = _bulletPool;
             return bulletInstance;
         }
 
@@ -85,9 +84,9 @@ namespace Game
 
         public void FireBullet(Transform shooter, Vector3 targetPos, float velocity)
         {
-            if (bulletPool != null)
+            if (_bulletPool != null)
             {
-                bullet bullet = bulletPool.Get();
+                bullet bullet = _bulletPool.Get();
                 if (bullet == null) return;
                 bullet.transform.SetPositionAndRotation(shooter.position, Quaternion.identity);
                 bullet.Target = targetPos;
