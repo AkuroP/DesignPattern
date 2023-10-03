@@ -30,13 +30,30 @@ public static class AnimationExtension
 
 public class PlayerBrain : MonoBehaviour
 {
-    [SerializeField, BoxGroup("Dependencies")] EntityMovement _movement;
-    [SerializeField, BoxGroup("Dependencies")] EntityAttack _attack;
+    [SerializeField, BoxGroup("Dependencies")]
+    EntityMovement _movement;
+
+    [SerializeField, BoxGroup("Dependencies")]
+    EntityAttack _attack;
 
     [SerializeField, BoxGroup("Input")] InputActionProperty _moveInput;
     [SerializeField, BoxGroup("Input")] InputActionProperty _dashInput;
     [SerializeField, BoxGroup("Input")] InputActionProperty _attackInput;
     [SerializeField, BoxGroup("Input")] InputActionProperty _fireInput;
+    [SerializeField, BoxGroup("Input")] InputActionProperty _spawnSphere;
+
+    [SerializeField, BoxGroup("Reference")]
+    Transform _aim;
+
+    [SerializeField, BoxGroup("Power Sphere")]
+    GameObject _sphere;
+
+    [SerializeField, BoxGroup("Power Sphere")]
+    float _sphereForce;
+
+    private bool _sphereAlreadySpawned;
+
+    private GameObject _powerSphere;
 
     private void Start()
     {
@@ -44,13 +61,16 @@ public class PlayerBrain : MonoBehaviour
         _moveInput.action.started += UpdateMove;
         _moveInput.action.performed += UpdateMove;
         _moveInput.action.canceled += StopMove;
-        
+
         //Dash
         _dashInput.action.started += Dash;
 
         // Attack
         //_attackInput.action.started += Attack;
         _fireInput.action.started += Fire;
+
+        //Power Sphere
+        _spawnSphere.action.started += UpdateSphere;
     }
 
 
@@ -71,12 +91,14 @@ public class PlayerBrain : MonoBehaviour
 
 
     Coroutine _maCoroutine;
+
     public void RunCoucou()
     {
         if (_maCoroutine != null) return;
 
         int i = 10;
         _maCoroutine = StartCoroutine(coucouRoutine());
+
         IEnumerator coucouRoutine()
         {
             Animation a = GetComponent<Animation>();
@@ -109,18 +131,41 @@ public class PlayerBrain : MonoBehaviour
     {
         _movement.Move(obj.ReadValue<Vector2>().normalized);
     }
+
     private void StopMove(InputAction.CallbackContext obj)
     {
         _movement.Move(Vector2.zero);
     }
-    
+
     private void Dash(InputAction.CallbackContext obj)
     {
         _movement.Dash();
     }
 
-    private void Fire(InputAction.CallbackContext obj) 
+    private void Fire(InputAction.CallbackContext obj)
     {
         _attack.Fire();
+    }
+
+    private void UpdateSphere(InputAction.CallbackContext obj)
+    {
+        Vector3 dir = (_aim.position - transform.position).normalized;
+
+        if (!_sphereAlreadySpawned)
+        {
+            _powerSphere = Instantiate(_sphere, transform.position + dir, Quaternion.identity);
+            _sphereAlreadySpawned = true;
+        }
+        else
+        {
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 1.5f, layerMask: LayerMask.GetMask("Power"));
+
+            Debug.DrawLine(transform.position, transform.position + dir * 1.5f);
+
+            if (hit.collider == null) return;
+
+            var sphereRb = hit.collider.gameObject.GetComponent<Rigidbody2D>();
+            sphereRb.AddForce(dir * _sphereForce);
+        }
     }
 }
