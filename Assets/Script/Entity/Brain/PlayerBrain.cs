@@ -1,6 +1,6 @@
 using NaughtyAttributes;
 using System.Collections;
-using System.Collections.Generic;
+using Game.Script;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,19 +41,17 @@ public class PlayerBrain : MonoBehaviour
     [SerializeField, BoxGroup("Input")] InputActionProperty _attackInput;
     [SerializeField, BoxGroup("Input")] InputActionProperty _fireInput;
     [SerializeField, BoxGroup("Input")] InputActionProperty _spawnSphere;
+    [SerializeField, BoxGroup("Input")] InputActionProperty _sphereUndo;
 
     [SerializeField, BoxGroup("Reference")]
     Transform _aim;
 
-    [SerializeField, BoxGroup("Power Sphere")]
-    GameObject _sphere;
-
-    [SerializeField, BoxGroup("Power Sphere")]
-    float _sphereForce;
-
-    private bool _sphereAlreadySpawned;
+    [SerializeField, BoxGroup("Power Sphere")] private GameObject _spherePrefab;
+    [SerializeField, BoxGroup("Power Sphere")] private float _sphereForce;
+    private SphereMoveUndo _sphereMoveUndo;
 
     private GameObject _powerSphere;
+    private Rigidbody2D _sphereRb;
 
     [SerializeField] private float _fireSpeed = 10f;
 
@@ -73,6 +71,7 @@ public class PlayerBrain : MonoBehaviour
 
         //Power Sphere
         _spawnSphere.action.started += UpdateSphere;
+        _sphereUndo.action.started += SphereUndo;
     }
 
 
@@ -155,21 +154,35 @@ public class PlayerBrain : MonoBehaviour
     {
         Vector3 dir = (_aim.position - transform.position).normalized;
 
-        if (!_sphereAlreadySpawned)
+        if (!_powerSphere)
         {
-            _powerSphere = Instantiate(_sphere, transform.position + dir, Quaternion.identity);
-            _sphereAlreadySpawned = true;
+            _powerSphere = Instantiate(_spherePrefab, transform.position + dir, Quaternion.identity);
+            _sphereMoveUndo = _powerSphere.GetComponent<SphereMoveUndo>();
+            _sphereRb = _powerSphere.GetComponent<Rigidbody2D>();
         }
         else
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 1.5f, layerMask: LayerMask.GetMask("Power"));
-
-            Debug.DrawLine(transform.position, transform.position + dir * 1.5f);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 2f, layerMask: LayerMask.GetMask("Power")); ;
 
             if (hit.collider == null) return;
 
-            var sphereRb = hit.collider.gameObject.GetComponent<Rigidbody2D>();
-            sphereRb.AddForce(dir * _sphereForce);
+            if (_sphereRb.velocity.magnitude > 0.5f) return;
+            
+            ICommand addForce = new SphereAddForce(_sphereRb, dir, _sphereForce);
+            _sphereMoveUndo.AddCommand(addForce);
         }
+    }
+
+    private void SphereUndo(InputAction.CallbackContext obj)
+    {
+        if (_powerSphere == null || _sphereRb.velocity.magnitude > 0.5f) return;
+
+        if (_sphereMoveUndo.CommandListCount == 0 || _sphereMoveUndo == null)
+        {
+            Destroy(_powerSphere);
+            return;
+        }
+        
+        _sphereMoveUndo.UndoCommand();
     }
 }

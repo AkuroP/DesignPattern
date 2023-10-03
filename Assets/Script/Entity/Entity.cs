@@ -32,7 +32,6 @@ public class Entity : MonoBehaviour
         if (col.CompareTag("Sphere") && CompareTag("Enemy"))
         {
             _health.Damage(50);
-            Debug.Log(_health.CurrentHealth);
         }
     }
 }

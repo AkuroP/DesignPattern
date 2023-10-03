@@ -58,7 +58,7 @@ MonoBehaviour:
   - {x: 0.2958265, y: -0.2958265, z: 0}
   m_ShapePathHash: 1522865524
   m_Mesh: {fileID: 0}
-  m_InstanceId: -2052
+  m_InstanceId: 36450
   m_LocalBounds:
     m_Center: {x: -0.011600763, y: -0.10208678, z: 0}
     m_Extent: {x: 0.30742726, y: 0.19373971, z: 0}
@@ -399,9 +399,22 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -4340225717683567068, guid: 55e29d63565f40741bca45a1cf06460e, type: 3}
+  _sphereUndo:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Sphere Undo
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: badea0d9-804d-4adc-ac5e-6537c58afe42
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 2817107787676298222, guid: 55e29d63565f40741bca45a1cf06460e, type: 3}
   _aim: {fileID: 0}
-  _sphere: {fileID: 3871984787734361374, guid: 86f6621bdb326354d816607fd176775e, type: 3}
-  _sphereForce: 700
+  _spherePrefab: {fileID: 3871984787734361374, guid: 86f6621bdb326354d816607fd176775e, type: 3}
+  _sphereForce: 1500
+  _fireSpeed: 10
 --- !u!1001 &5388345588737081166
 PrefabInstance:
   m_ObjectHideFlags: 0

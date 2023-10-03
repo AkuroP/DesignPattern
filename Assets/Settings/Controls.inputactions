@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PowerSphereUndo",
+                    "type": "Button",
+                    "id": "95a6dfa5-9c1f-4006-8022-a24b09e99cc1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -234,6 +243,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "PowerSphere",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d03d0af4-0ca4-44f9-a186-fdf3c8726087",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "PowerSphereUndo",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
