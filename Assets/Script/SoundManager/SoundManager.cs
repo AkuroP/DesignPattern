@@ -6,6 +6,8 @@ namespace Game.Script.SoundManager
     {
         public void PlaySound(AudioClip audioClip)
         {
+            if (audioClip == null) return;
+            
             if (gameObject.GetComponent<AudioSource>() == null)
             {
                 gameObject.AddComponent<AudioSource>();   

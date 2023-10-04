@@ -127,6 +127,14 @@ public class PlayerBrain : MonoBehaviour
         _moveInput.action.started -= UpdateMove;
         _moveInput.action.performed -= UpdateMove;
         _moveInput.action.canceled -= StopMove;
+        _dashInput.action.started -= Dash;
+
+        // Attack
+        _fireInput.action.started -= Fire;
+
+        //Power Sphere
+        _spawnSphere.action.started -= UpdateSphere;
+        _sphereUndo.action.started -= SphereUndo;
     }
 
 
