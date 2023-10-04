@@ -177,6 +177,9 @@ public class PlayerBrain : MonoBehaviour
             _sphereRb = _powerSphere.GetComponent<Rigidbody2D>();
             
             ServiceLocator.Get().PlaySound(_sphereSpawnSFX);
+            
+            ICommand addForce = new SphereAddForce(_sphereRb, dir, _sphereForce);
+            _sphereMoveUndo.AddCommand(addForce);
         }
         else
         {
