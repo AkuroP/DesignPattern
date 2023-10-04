@@ -20,20 +20,20 @@ public class AIBrain : MonoBehaviour
     [SerializeField, BoxGroup("Dependencies")] Entity _root;
     [SerializeField, BoxGroup("Dependencies")] EntityMovement _movement;
     [SerializeField, BoxGroup("Dependencies")] EntityAttack _attack;
+    [SerializeField, BoxGroup("Dependencies")] GameObject _physics;
 
     [SerializeField, BoxGroup("Conf")] float _distanceDetection;
     [SerializeField, BoxGroup("Conf")] float _distanceAttack;
     [SerializeField, BoxGroup("Conf")] float _stopDistance;
     [SerializeField, BoxGroup("Conf")] private float _fireSpeed = 10f;
 
-    [SerializeField] private ParticleSystem _deathParticle;
-    public event Action OnAiDeath;
-
     ENEMY_STATES _currentState;
 
     bool IsPlayerNear => Vector3.Distance(_root.transform.position, _playerEntity.Instance.transform.position) < _distanceDetection;
     bool IsPlayerInAttackRange => Vector3.Distance(_root.transform.position, _playerEntity.Instance.transform.position) < _distanceAttack;
     bool IsPlayerTooNear => Vector3.Distance(_root.transform.position, _playerEntity.Instance.transform.position) < _stopDistance;
+
+    private bool _entityDead => _root._Health.IsDead;
 
     #region EDITOR
 #if UNITY_EDITOR
@@ -62,36 +62,42 @@ public class AIBrain : MonoBehaviour
     private void Start()
     {
         _currentState = ENEMY_STATES.ES_IDLE;
-        OnAiDeath += DeathParticle;
     }
 
 
     private void Update()
     {
         // Attack
-       /* if(IsPlayerTooNear)
-        {
-            _movement.Move(Vector2.zero);
-            _attack.LaunchAttack();
-        }
-        // Move To Player
-        else if (IsPlayerNear)
-        {
-            _movement.MoveToward(_playerEntity.Instance.transform);
-            _attack.Fire();
-        }
-        // Stay idle
-        else
-        {
-            _movement.Move(Vector2.zero);
-        }*/
+        /* if(IsPlayerTooNear)
+         {
+             _movement.Move(Vector2.zero);
+             _attack.LaunchAttack();
+         }
+         // Move To Player
+         else if (IsPlayerNear)
+         {
+             _movement.MoveToward(_playerEntity.Instance.transform);
+             _attack.Fire();
+         }
+         // Stay idle
+         else
+         {
+             _movement.Move(Vector2.zero);
+         }*/
 
 
         // AI State Machine
+        if (_playerEntity.Instance._Health.IsDead)
+        {
+            _physics.SetActive(false);
+            return;
+        }
+
         switch(_currentState)
         {
             case ENEMY_STATES.ES_IDLE:
-                if(IsPlayerNear)
+                if (_entityDead) return;
+                if (IsPlayerNear)
                 {
                     _currentState = ENEMY_STATES.ES_PURCHASE;
                     break;
@@ -108,6 +114,13 @@ public class AIBrain : MonoBehaviour
                 break;
 
             case ENEMY_STATES.ES_PURCHASE:
+                if (_entityDead)
+                {
+                    _movement.Move(Vector2.zero);
+                    _currentState = ENEMY_STATES.ES_IDLE;
+                    return;
+                }
+
                 if (!IsPlayerNear)
                 {
                     _currentState = ENEMY_STATES.ES_IDLE;
@@ -122,6 +135,12 @@ public class AIBrain : MonoBehaviour
                 break;
 
             case ENEMY_STATES.ES_ATTACK:
+                if (_entityDead)
+                {
+                    _currentState = ENEMY_STATES.ES_IDLE;
+                    return;
+                }
+
                 if (!IsPlayerInAttackRange)
                 {
                     _currentState = ENEMY_STATES.ES_IDLE;
@@ -129,31 +148,9 @@ public class AIBrain : MonoBehaviour
                 }
                 _movement.Move(Vector2.zero);
                 //Attack
-                _attack.Fire((_playerEntity.Instance.transform.position - this.transform.position).normalized, _fireSpeed) ;
+                _attack.Fire((_playerEntity.Instance.transform.position - this.transform.position).normalized, _fireSpeed, LayerMask.NameToLayer("EnemySphere"), Color.red);
                 //Debug.Log(_playerEntity.Instance.transform.position);
                 break;
-
-            case ENEMY_STATES.ES_DEATH:
-                OnAiDeath?.Invoke();
-                break;
         }
-    }
-    private void DeathParticle()
-    {
-        if (_deathParticle.isPlaying) return;
-        _deathParticle?.gameObject.SetActive(true);
-        _deathParticle?.Play();
-        Destroy(this.transform.root.gameObject, _deathParticle.main.duration);
-    }
-
-    private void OnDestroy()
-    {
-        OnAiDeath -= DeathParticle;
-    }
-
-    [Button]
-    public void DebugAiDeath()
-    {
-        _currentState = ENEMY_STATES.ES_DEATH;
     }
 }

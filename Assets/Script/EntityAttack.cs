@@ -19,6 +19,16 @@ public class EntityAttack : MonoBehaviour
     private float _fireCD;
     [SerializeField] private float _maxFireCD = .5f;
 
+    private void OnEnable()
+    {
+        OnFire += FireSfxVfx;
+    }
+
+    private void OnDisable()
+    {
+        OnFire -= FireSfxVfx;
+    }
+
     private void FixedUpdate()
     {
         if (_fireCD > 0) _fireCD -= Time.deltaTime;
@@ -33,17 +43,22 @@ public class EntityAttack : MonoBehaviour
         }
     }
 
-    public void Fire(Vector3 target, float velocity)
+    public void Fire(Vector3 target, float velocity, LayerMask shooterOrigin, Color bulletColor)
     {
         if (_fireCD > 0) return;
         
         OnFire?.Invoke();
-        
-        _fireCD = _maxFireCD;
+
         target.Normalize();
-        bulletPool.FireBullet(this.transform, target, velocity);
-        
+        bulletPool.FireBullet(this.transform, target, velocity, shooterOrigin, bulletColor);
+    }
+
+    private void FireSfxVfx()
+    {
+        _fireCD = _maxFireCD;
+        //son tir
         ServiceLocator.Get().PlaySound(_fireSFX);
+
     }
 
 

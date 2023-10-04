@@ -68,28 +68,17 @@ namespace Game
             return bulletInstance;
         }
 
-        private void FixedUpdate()
-        {
-            /*
-            //tire quand cd finit
-            if (bulletCD < 0f && bulletPool != null)
-            {
-                bullet bullet = bulletPool.Get();
-                if (bullet == null) return;
-                bullet.transform.SetPositionAndRotation(bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-            }
-            //réduit le cooldown
-            else if(bulletCD > 0f) bulletCD -= Time.deltaTime;*/
-        }
 
-        public void FireBullet(Transform shooter, Vector3 targetPos, float velocity)
+        public void FireBullet(Transform shooter, Vector3 targetPos, float velocity, LayerMask shooterOrigin, Color bulletColor)
         {
             if (_bulletPool != null)
             {
                 bullet bullet = _bulletPool.Get();
                 if (bullet == null) return;
                 bullet.transform.SetPositionAndRotation(shooter.position, Quaternion.identity);
-                bullet.Target = targetPos;
+                bullet.BulletSRColor = bulletColor;
+                bullet.gameObject.layer = shooterOrigin;
+                bullet.BulletDir = targetPos;
                 bullet.Speed = velocity;
                 //targetPos.Normalize();
                //bullet.Rb.AddForce(targetPos * velocity, ForceMode2D.Impulse);

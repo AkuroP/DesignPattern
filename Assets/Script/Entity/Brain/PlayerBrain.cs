@@ -37,6 +37,12 @@ public class PlayerBrain : MonoBehaviour
     [SerializeField, BoxGroup("Dependencies")]
     EntityAttack _attack;
 
+    [SerializeField, BoxGroup("Dependencies")]
+    Entity _root;
+
+    /*[SerializeField, BoxGroup("Dependencies")]
+    Collider2D _hitbox;*/
+
     [SerializeField, BoxGroup("Input")] InputActionProperty _moveInput;
     [SerializeField, BoxGroup("Input")] InputActionProperty _dashInput;
     [SerializeField, BoxGroup("Input")] InputActionProperty _attackInput;
@@ -60,6 +66,7 @@ public class PlayerBrain : MonoBehaviour
     private Rigidbody2D _sphereRb;
 
     [SerializeField] private float _fireSpeed = 10f;
+    private bool _entityDead => _root._Health.IsDead;
 
     private void Start()
     {
@@ -78,6 +85,7 @@ public class PlayerBrain : MonoBehaviour
         //Power Sphere
         _spawnSphere.action.started += UpdateSphere;
         _sphereUndo.action.started += SphereUndo;
+
     }
 
 
@@ -144,6 +152,7 @@ public class PlayerBrain : MonoBehaviour
 
     private void UpdateMove(InputAction.CallbackContext obj)
     {
+        if (_entityDead) return;
         _movement.Move(obj.ReadValue<Vector2>().normalized);
     }
 
@@ -154,20 +163,23 @@ public class PlayerBrain : MonoBehaviour
 
     private void Dash(InputAction.CallbackContext obj)
     {
+        if (_entityDead) return;
         _movement.Dash();
         ServiceLocator.Get().PlaySound(_dashSFX);
     }
 
     private void Fire(InputAction.CallbackContext obj)
     {
+        if (_entityDead) return;
         if (this == null) return;
         
         Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition) - this.transform.position;
-        _attack.Fire(target, _fireSpeed);
+        _attack.Fire(target, _fireSpeed, LayerMask.NameToLayer("PlayerSphere"), Color.white);
     }
 
     private void UpdateSphere(InputAction.CallbackContext obj)
     {
+        if (_entityDead) return;
         Vector3 dir = (_aim.position - transform.position).normalized;
 
         if (!_powerSphere)
@@ -211,5 +223,10 @@ public class PlayerBrain : MonoBehaviour
         _sphereMoveUndo.UndoCommand();
         
         ServiceLocator.Get().PlaySound(_sphereUndoSFX);
+    }
+
+    private void EntityDeactivateScript()
+    {
+        if (_entityDead) this.enabled = false;
     }
 }

@@ -7,6 +7,8 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     [SerializeField, Required("nop")] Health _health;
+    public Health _Health { get => _health; }
+
 
     [SerializeField] int _baseSpeed;
     public Alterable<int> CurrentSpeed { get; private set; }
@@ -29,9 +31,16 @@ public class Entity : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Sphere") && CompareTag("Enemy"))
-        {
-            _health.Damage(50);
-        }
+
+    }
+
+    public void DamageHitBox(Collider2D col, string colName)
+    {
+        //Debug.Log(this.name);
+        if (col.gameObject.layer == LayerMask.NameToLayer("PlayerSphere") && CompareTag("Enemy") && colName == "HitBox")
+            if (!_health.IsDead)_health.Damage(10);
+
+        if (col.gameObject.layer == LayerMask.NameToLayer("EnemySphere") && CompareTag("Player") && colName == "HitBox")
+            if (!_health.IsDead)_health.Damage(10);
     }
 }
