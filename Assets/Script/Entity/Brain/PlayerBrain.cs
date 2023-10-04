@@ -49,8 +49,12 @@ public class PlayerBrain : MonoBehaviour
 
     [SerializeField, BoxGroup("Power Sphere")] private GameObject _spherePrefab;
     [SerializeField, BoxGroup("Power Sphere")] private float _sphereForce;
-    [SerializeField, BoxGroup("Power Sphere")] private AudioClip _sphereSpawnSFX;
     private SphereMoveUndo _sphereMoveUndo;
+    
+    [SerializeField, BoxGroup("SFX")] private AudioClip _sphereSpawnSFX;
+    [SerializeField, BoxGroup("SFX")] private AudioClip _dashSFX;
+    [SerializeField, BoxGroup("SFX")] private AudioClip _hitSphereSFX;
+    [SerializeField, BoxGroup("SFX")] private AudioClip _sphereUndoSFX;
 
     private GameObject _powerSphere;
     private Rigidbody2D _sphereRb;
@@ -151,11 +155,13 @@ public class PlayerBrain : MonoBehaviour
     private void Dash(InputAction.CallbackContext obj)
     {
         _movement.Dash();
+        ServiceLocator.Get().PlaySound(_dashSFX);
     }
 
     private void Fire(InputAction.CallbackContext obj)
     {
         if (this == null) return;
+        
         Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition) - this.transform.position;
         _attack.Fire(target, _fireSpeed);
     }
@@ -182,6 +188,8 @@ public class PlayerBrain : MonoBehaviour
             
             ICommand addForce = new SphereAddForce(_sphereRb, dir, _sphereForce);
             _sphereMoveUndo.AddCommand(addForce);
+            
+            ServiceLocator.Get().PlaySound(_hitSphereSFX);
         }
     }
 
@@ -192,9 +200,13 @@ public class PlayerBrain : MonoBehaviour
         if (_sphereMoveUndo.CommandListCount == 0 || _sphereMoveUndo == null)
         {
             Destroy(_powerSphere);
+            ServiceLocator.Get().PlaySound(_sphereSpawnSFX);
+            
             return;
         }
         
         _sphereMoveUndo.UndoCommand();
+        
+        ServiceLocator.Get().PlaySound(_sphereUndoSFX);
     }
 }

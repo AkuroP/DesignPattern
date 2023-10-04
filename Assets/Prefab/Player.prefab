@@ -497,6 +497,9 @@ MonoBehaviour:
   _spherePrefab: {fileID: 3871984787734361374, guid: 86f6621bdb326354d816607fd176775e, type: 3}
   _sphereForce: 2000
   _sphereSpawnSFX: {fileID: 8300000, guid: 15453f3338996644786566db779b4faf, type: 3}
+  _dashSFX: {fileID: 8300000, guid: 2d2266eb931364e469b2fbc4222fe088, type: 3}
+  _hitSphereSFX: {fileID: 8300000, guid: ee0a99e5ecea08b43b42e57a4d532822, type: 3}
+  _sphereUndoSFX: {fileID: 8300000, guid: 5124bcf684a5e214faf6db278c53cdd8, type: 3}
   _fireSpeed: 10
 --- !u!1001 &5388345588737081166
 PrefabInstance:
@@ -654,6 +657,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 2280260485013203586, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: _fireSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 278b8786120f8bc499815f22c5db0faf, type: 3}
     - target: {fileID: 2880931813937602012, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       propertyPath: m_Layer
       value: 7

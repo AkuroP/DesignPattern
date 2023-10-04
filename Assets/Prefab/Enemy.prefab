@@ -49,7 +49,10 @@ MonoBehaviour:
   _movement: {fileID: 9127044342733980736}
   _attack: {fileID: 5278354474510773815}
   _distanceDetection: 3
+  _distanceAttack: 0
   _stopDistance: 1
+  _fireSpeed: 10
+  _deathParticle: {fileID: 0}
 --- !u!1001 &2739421103729789370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -181,6 +184,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
+    - target: {fileID: 2280260485013203586, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: _fireSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: a7e102ad54812df489cf3b54ec6d96f2, type: 3}
     - target: {fileID: 2880931813937602012, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       propertyPath: m_Layer
       value: 0

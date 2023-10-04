@@ -1,6 +1,7 @@
 using Game;
 using System.Collections;
 using System.Collections.Generic;
+using Game.Script.SoundManager;
 using UnityEditor.Graphs;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,6 +10,8 @@ public class EntityAttack : MonoBehaviour
 {
     [SerializeField] AttackZone _attackZone;
     [SerializeField] ObjectPool bulletPool;
+    
+    [SerializeField] private AudioClip _fireSFX;
 
     public event UnityAction OnAttack;
     public event UnityAction OnFire;
@@ -33,10 +36,14 @@ public class EntityAttack : MonoBehaviour
     public void Fire(Vector3 target, float velocity)
     {
         if (_fireCD > 0) return;
+        
         OnFire?.Invoke();
+        
         _fireCD = _maxFireCD;
         target.Normalize();
         bulletPool.FireBullet(this.transform, target, velocity);
+        
+        ServiceLocator.Get().PlaySound(_fireSFX);
     }
 
 

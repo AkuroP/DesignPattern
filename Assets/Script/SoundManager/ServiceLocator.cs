@@ -18,6 +18,11 @@ namespace Game.Script.SoundManager
 
         public static void Provide(ISoundManager soundManager)
         {
+            if (soundManager == null)
+            {
+                _soundManager = _nullSoundManager;
+            }
+            
             _soundManager = soundManager;
         }
 
