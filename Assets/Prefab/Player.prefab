@@ -140,7 +140,7 @@ MonoBehaviour:
   - {x: 0.2958265, y: -0.2958265, z: 0}
   m_ShapePathHash: 1522865524
   m_Mesh: {fileID: 0}
-  m_InstanceId: -5972
+  m_InstanceId: 40598
   m_LocalBounds:
     m_Center: {x: -0.011600763, y: -0.10208678, z: 0}
     m_Extent: {x: 0.30742726, y: 0.19373971, z: 0}
@@ -421,7 +421,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movement: {fileID: 6445811766320157846}
   _attack: {fileID: 7970705805980794593}
-  _root: {fileID: 0}
+  _root: {fileID: 6797762229876494275}
   _moveInput:
     m_UseReference: 1
     m_Action:
@@ -738,6 +738,14 @@ PrefabInstance:
       propertyPath: _fireSFX
       value: 
       objectReference: {fileID: 8300000, guid: 278b8786120f8bc499815f22c5db0faf, type: 3}
+    - target: {fileID: 2750717334413120766, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: _hitSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: ea509d11c0467ad47b55d2c105c5febf, type: 3}
+    - target: {fileID: 2750717334413120766, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: _deathSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 6307efc6fd320584aaf9bacddd1c7a54, type: 3}
     - target: {fileID: 2750717334413120766, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       propertyPath: _entitySR
       value: 

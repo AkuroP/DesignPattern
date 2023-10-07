@@ -48,7 +48,7 @@ MonoBehaviour:
   _root: {fileID: 8758192194809306901}
   _movement: {fileID: 9127044342733980736}
   _attack: {fileID: 5278354474510773815}
-  _physics: {fileID: 0}
+  _physics: {fileID: 5181819208402495818}
   _distanceDetection: 3
   _distanceAttack: 0
   _stopDistance: 1
@@ -277,6 +277,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: a7e102ad54812df489cf3b54ec6d96f2, type: 3}
     - target: {fileID: 2750717334413120766, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: _deathSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: b81cc09545c0b5e479adff602cdb8979, type: 3}
+    - target: {fileID: 2750717334413120766, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       propertyPath: _entitySR
       value: 
       objectReference: {fileID: 7595005248751478096}
@@ -388,6 +392,11 @@ PrefabInstance:
 --- !u!4 &524590895572695461 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5882509366201892112, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+  m_PrefabInstance: {fileID: 6261524904808318133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5181819208402495818 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1228605993449745919, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
   m_PrefabInstance: {fileID: 6261524904808318133}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &5278354474510773815 stripped

@@ -3,12 +3,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Game.Script.SoundManager;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Health : MonoBehaviour, IHealth
 {
     [SerializeField] int _maxHealth;
+    [SerializeField] private AudioClip _hitSFX;
+    [SerializeField] private AudioClip _deathSFX;
 
     /// <summary>
     /// coucou
@@ -85,12 +88,17 @@ public class Health : MonoBehaviour, IHealth
     {
         if(IsDead)InternalDie();
         else StartCoroutine(DamageVFX());
-        //hit sound
     }
 
     private IEnumerator DamageVFX()
     {
         _entitySR.color = Color.red;
+
+        if (_hitSFX != null)
+        {
+            ServiceLocator.Get().PlaySound(_hitSFX);
+        }
+        
         yield return new WaitForSeconds(.1f);
         _entitySR.color = Color.white;
     }
@@ -99,8 +107,11 @@ public class Health : MonoBehaviour, IHealth
     {
         DeathParticle();
         DeathVFX();
-        //death sound
 
+        if (_deathSFX != null)
+        {
+            ServiceLocator.Get().PlaySound(_deathSFX);
+        }
     }
 
     private void DeathParticle()
