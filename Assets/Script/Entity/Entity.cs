@@ -36,9 +36,19 @@ public class Entity : MonoBehaviour
 
     public void DamageHitBox(Collider2D col, string colName)
     {
-        //Debug.Log(this.name);
-        if (col.gameObject.layer == LayerMask.NameToLayer("PlayerSphere") && CompareTag("Enemy") && colName == "HitBox")
-            if (!_health.IsDead)_health.Damage(10);
+        if ((col.gameObject.layer == LayerMask.NameToLayer("PlayerSphere") 
+             || col.gameObject.layer == LayerMask.NameToLayer("Power"))
+            && CompareTag("Enemy") && colName is "HitBox" or "PowerSphere")
+            if (!_health.IsDead)
+            {
+                if (col.gameObject.layer == LayerMask.NameToLayer("Power"))
+                {
+                    _health.Damage(25);
+                    return;
+                }
+                
+                _health.Damage(10);
+            }
 
         if (col.gameObject.layer == LayerMask.NameToLayer("EnemySphere") && CompareTag("Player") && colName == "HitBox")
             if (!_health.IsDead)_health.Damage(10);
